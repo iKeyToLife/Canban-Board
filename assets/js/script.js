@@ -129,7 +129,7 @@ function renderTaskList() {
 function handleAddTask(event) {
     event.preventDefault();
 
-    const tasks = taskList || [];
+    const tasks = readTasksFromStorage();
     const taskName = $('#taskTitle').val();
     const taskDate = $('#taskDueDate').val();
     const taskDescription = $('#taskDescription').val();
