@@ -24,7 +24,7 @@ function generateTaskId() {
 function createTaskCard(task) {
 
     const taskCard = $('<section></section>')
-        .addClass('card task-card draggable my-3')
+        .addClass('card task-card draggable my-3 col-9')
         .attr(`data-task-id`, task.id);
 
 
@@ -61,10 +61,12 @@ function createTaskCard(task) {
         // set color yellow if task day complete today
         if (now.isSame(taskDueDate, 'day')) {
             taskCard.addClass('bg-warning text-white');
-
+            cardBodyEl.addClass(`bg-warning text-white`);
             // set color red if task after today
         } else if (now.isAfter(taskDueDate)) {
             taskCard.addClass('bg-danger text-white');
+            cardBodyEl.addClass(`bg-danger text-white`);
+            cardDeleteBtn.addClass('border-light');
         }
     }
 
@@ -146,6 +148,7 @@ function handleAddTask(event) {
     $('#taskForm')[0].reset();
 
     $('#formModal').modal('hide');
+    renderTaskList();
 }
 
 // Todo: create a function to handle deleting a task
