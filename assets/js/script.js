@@ -9,6 +9,11 @@ function taskSaveToLocalStorage(tasksArray) {
     localStorage.setItem(`tasks`, JSON.stringify(tasksArray));
 }
 
+// get tasks for localStorage
+function readTasksFromStorage() {
+    return JSON.parse(localStorage.getItem(`tasks`)) || [];
+}
+
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
     const uniqueId = new UUID();
@@ -18,6 +23,57 @@ function generateTaskId() {
 // Todo: create a function to create a task card
 function createTaskCard(task) {
 
+    const taskCard = $('<section></section>')
+        .addClass('card task-card draggable my-3')
+        .attr(`data-task-id`, task.id);
+
+
+    const cardHeaderEl = $('<header></header>')
+        .addClass(`card-header h4`)
+        .text(task.name);
+
+
+    const cardBodyEl = $(`<body></body>`)
+        .addClass(`card-body`)
+
+
+    const pCardTypeEl = $(`<p></p>`)
+        .addClass(`card-text`)
+        .text(task.description);
+
+
+    const pCardDateEl = $(`<p></p>`)
+        .addClass(`card-text`)
+        .text(task.dueDate);
+
+
+    const cardDeleteBtn = $(`<button></button>`)
+        .addClass(`btn btn-danger delete`)
+        .text(`Delete`)
+        .attr(`data-task-id`, task.id);
+    cardDeleteBtn.on(`click`, handleDeleteTask);
+
+    // check status done
+    if (task.status !== 'done') {
+        const now = dayjs();
+        const taskDueDate = dayjs(task.dueDate, 'DD/MM/YYYY');
+
+        // set color yellow if task day complete today
+        if (now.isSame(taskDueDate, 'day')) {
+            taskCard.addClass('bg-warning text-white');
+
+            // set color red if task after today
+        } else if (now.isAfter(taskDueDate)) {
+            taskCard.addClass('bg-danger text-white');
+        }
+    }
+
+    // append cardBody elements
+    cardBodyEl.append(pCardTypeEl, pCardDateEl, cardDeleteBtn);
+    // append to task card header and body
+    taskCard.append(cardHeaderEl, cardBodyEl);
+    // return task card
+    return taskCard;
 }
 
 // Todo: create a function to render the task list and make cards draggable
@@ -61,12 +117,18 @@ function handleDrop(event, ui) {
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
 
+    taskForm.on(`submit`, handleAddTask);
+
+    $(function () {
+        $("#taskDueDate").datepicker({
+            changeMonth: true,
+            changeYear: true
+        });
+    });
 });
 
-taskForm.on(`submit`, handleAddTask);
 
-
-
+// class constructor for encapsulation id
 const UUID = (() => {
     let idCount = nextId || 1;
 
@@ -82,10 +144,4 @@ const UUID = (() => {
     };
 })();
 
-$(function () {
-    $("#taskDueDate").datepicker({
-        changeMonth: true,
-        changeYear: true
-    });
-});
 
