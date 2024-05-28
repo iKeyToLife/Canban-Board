@@ -1,6 +1,13 @@
+const taskForm = $(`#taskForm`);
+
 // Retrieve tasks and nextId from localStorage
 let taskList = JSON.parse(localStorage.getItem("tasks"));
 let nextId = JSON.parse(localStorage.getItem("nextId"));
+
+
+function taskSaveToLocalStorage(tasksArray) {
+    localStorage.setItem(`tasks`, JSON.stringify(tasksArray));
+}
 
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
@@ -20,7 +27,25 @@ function renderTaskList() {
 
 // Todo: create a function to handle adding a new task
 function handleAddTask(event) {
+    event.preventDefault();
 
+    const tasks = taskList || [];
+    const taskName = $('#taskTitle').val();
+    const taskDate = $('#taskDueDate').val();
+    const taskDescription = $('#taskDescription').val();
+
+    const newTask = {
+        id: generateTaskId(),
+        name: taskName,
+        dueDate: taskDate,
+        description: taskDescription,
+        status: 'to-do',
+    }
+    tasks.push(newTask);
+    taskSaveToLocalStorage(tasks);
+    $('#taskForm')[0].reset();
+
+    $('#formModal').modal('hide');
 }
 
 // Todo: create a function to handle deleting a task
@@ -37,6 +62,8 @@ function handleDrop(event, ui) {
 $(document).ready(function () {
 
 });
+
+taskForm.on(`submit`, handleAddTask);
 
 
 
