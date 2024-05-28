@@ -78,6 +78,36 @@ function createTaskCard(task) {
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
+    const tasks = readTasksFromStorage();
+
+    // ? Empty existing project cards out of the lanes
+    const todoList = $('#todo-cards');
+    todoList.empty();
+
+    const inProgressList = $('#in-progress-cards');
+    inProgressList.empty();
+
+    const doneList = $('#done-cards');
+    doneList.empty();
+
+    // TODO: Loop through projects and create project cards for each status
+    for (let task of tasks) {
+        let newTask = createTaskCard(task);
+        switch (task.status) {
+            case `to-do`:
+                todoList.append(newTask);
+                break;
+            case `in-progress`:
+                inProgressList.append(newTask);
+                break;
+            case `done`:
+                doneList.append(newTask);
+                break;
+            default:
+                break;
+        }
+    }
+
 
 }
 
