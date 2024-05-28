@@ -4,7 +4,8 @@ let nextId = JSON.parse(localStorage.getItem("nextId"));
 
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
-
+    const uniqueId = new UUID();
+    return uniqueId.getId();
 }
 
 // Todo: create a function to create a task card
@@ -18,12 +19,12 @@ function renderTaskList() {
 }
 
 // Todo: create a function to handle adding a new task
-function handleAddTask(event){
+function handleAddTask(event) {
 
 }
 
 // Todo: create a function to handle deleting a task
-function handleDeleteTask(event){
+function handleDeleteTask(event) {
 
 }
 
@@ -36,3 +37,28 @@ function handleDrop(event, ui) {
 $(document).ready(function () {
 
 });
+
+
+
+const UUID = (() => {
+    let idCount = nextId || 1;
+
+    return class {
+        constructor() {
+            this.id = ++idCount;
+            localStorage.setItem(`nextId`, this.id);
+        }
+
+        getId() {
+            return this.id;
+        }
+    };
+})();
+
+$(function () {
+    $("#taskDueDate").datepicker({
+        changeMonth: true,
+        changeYear: true
+    });
+});
+
