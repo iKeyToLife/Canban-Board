@@ -47,7 +47,7 @@ The following animation demonstrates the application functionality:
 ![The user adds a task according to their request, then can move it to "In Progress" and "Completed," as well as delete the task.](./assets/images/05-third-party-apis-homework-demo.gif)
 
 ## Repository Link
-[My blog Repository](https://github.com/iKeyToLife/Kanban-Board)
+[Kanban board Repository](https://github.com/iKeyToLife/Kanban-Board)
 
 ## Deployed Application
-[My blog Deployed Application](https://ikeytolife.github.io/Kanban-Board/)
+[Kanban board deployed Application](https://ikeytolife.github.io/Kanban-Board/)
