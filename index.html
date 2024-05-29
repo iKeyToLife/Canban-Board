@@ -39,11 +39,13 @@
               <div class="row mb-3">
                 <div class="col-md-6">
                   <label for="taskTitle" class="form-label">Task Title</label>
-                  <input type="text" class="form-control" id="taskTitle" required>
+                  <input type="text" class="form-control" id="taskTitle" required pattern=".{1,50}"
+                    title="1-50 characters">
                 </div>
                 <div class="col-md-6">
                   <label for="taskDueDate" class="form-label">Task Due Date</label>
-                  <input class="form-control" id="taskDueDate" required>
+                  <input class="form-control" id="taskDueDate" required
+                    pattern="(0[1-9]|1[0-2])/(0[1-9]|1\d|2\d|3[01])/(19\d{2}|20\d{2})" title="MM/DD/YYYY">
                 </div>
               </div>
               <div class="mb-3">
