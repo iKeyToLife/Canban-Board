@@ -206,7 +206,7 @@ $(document).ready(function () {
 
 // class constructor for encapsulation id
 const UUID = (() => {
-    let idCount = nextId || 1;
+    let idCount = nextId || 0;
 
     return class {
         constructor() {
