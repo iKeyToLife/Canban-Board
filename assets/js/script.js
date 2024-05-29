@@ -22,31 +22,31 @@ function generateTaskId() {
 
 // Todo: create a function to create a task card
 function createTaskCard(task) {
-
+    // create card
     const taskCard = $('<section></section>')
         .addClass('card task-card draggable my-3 col-9')
         .attr(`data-task-id`, task.id);
 
-
+    // create card-header title
     const cardHeaderEl = $('<header></header>')
         .addClass(`card-header h4`)
         .text(task.name);
 
-
+    // create card-body
     const cardBodyEl = $(`<body></body>`)
         .addClass(`card-body`)
 
-
+    //create card-pEl description
     const pCardTypeEl = $(`<p></p>`)
         .addClass(`card-text`)
         .text(task.description);
 
-
+    //create card-pEl date
     const pCardDateEl = $(`<p></p>`)
         .addClass(`card-text`)
         .text(task.dueDate);
 
-
+    // create card-deleteBtn
     const cardDeleteBtn = $(`<button></button>`)
         .addClass(`btn btn-danger delete`)
         .text(`Delete`)
@@ -82,7 +82,7 @@ function createTaskCard(task) {
 function renderTaskList() {
     const tasks = readTasksFromStorage();
 
-    // ? Empty existing project cards out of the lanes
+    // Empty existing task cards out of the lanes
     const todoList = $('#todo-cards');
     todoList.empty();
 
@@ -110,7 +110,7 @@ function renderTaskList() {
         }
     }
 
-
+    // draggable for cards
     $(".draggable").draggable({
         opacity: 0.8,
         zIndex: 10,
@@ -144,10 +144,13 @@ function handleAddTask(event) {
         status: 'to-do',
     }
     tasks.push(newTask);
+    // save tasks
     taskSaveToLocalStorage(tasks);
+    // reset Form
     $('#taskForm')[0].reset();
-
+    // hide modal after add task
     $('#formModal').modal('hide');
+    // render after add task
     renderTaskList();
 }
 
@@ -155,28 +158,28 @@ function handleAddTask(event) {
 function handleDeleteTask(event) {
     const tasks = readTasksFromStorage();
     const taskId = $(event.target).data(`task-id`);
-
+    // delete from array task by id
     const updatedTaskArray = tasks.filter(task => task.id != taskId);
-
+    // update task local storage
     taskSaveToLocalStorage(updatedTaskArray);
-
+    // render after delete
     renderTaskList();
 }
 
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
     const tasks = readTasksFromStorage();
-
+    // current task id
     const taskId = ui.draggable[0].dataset.taskId;
-
+    // new status by target drop
     const newStatus = event.target.id;
-
+    // find task at array
     const task = tasks.find(task => task.id == taskId);
-
+    // if have task change status
     if (task) {
         task.status = newStatus;
         taskSaveToLocalStorage(tasks);
-
+        // render if we update taskLocalStorage
         renderTaskList();
     }
 }
@@ -196,7 +199,7 @@ $(document).ready(function () {
         changeMonth: true,
         changeYear: true
     });
-
+    // drop by class lane
     $('.lane').droppable({
         accept: '.draggable',
         drop: handleDrop,
